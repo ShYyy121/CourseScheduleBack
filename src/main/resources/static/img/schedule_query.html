@@ -1,0 +1,145 @@
+<template>
+    <div class="schedule-management-container">
+        <h1 class="text-center">排课管理</h1>
+
+        <h2 class="text-center">选择排课类型</h2>
+        <el-radio-group v-model="selectedScheduleType">
+            <el-radio label="single">单次</el-radio>
+            <el-radio label="batch">批量</el-radio>
+        </el-radio-group>
+
+        <!-- 选择实验室 -->
+        <el-select v-model="selectedClassroom" placeholder="请选择实验室" @change="fetchClassroomCourses">
+            <el-option v-for="classroom in classrooms" :key="classroom.id" :label="classroom.name" :value="classroom.id"></el-option>
+        </el-select>
+
+        <!-- 实验室课程列表 -->
+        <el-card v-if="classroomCourses.length > 0">
+            <h2>实验室课程列表</h2>
+            <el-table :data="classroomCourses" :row-key="row => row.id" :pagination="false">
+                <el-table-column prop="name" label="课程名称"></el-table-column>
+                <el-table-column prop="property1" label="属性1"></el-table-column>
+                <el-table-column prop="property2" label="属性2"></el-table-column>
+                <!-- 其他属性列 -->
+            </el-table>
+        </el-card>
+
+        <!-- 单次排课 -->
+        <el-container v-if="selectedScheduleType === 'single'">
+            <el-card>
+                <h2>单次排课</h2>
+                <!-- 表单内容 -->
+                <!-- 选择教学班 -->
+                <el-select v-model="selectedTeachingClass" placeholder="请选择教学班">
+                    <el-option v-for="teachingClass in teachingClasses" :key="teachingClass.id" :label="teachingClass.name" :value="teachingClass.id"></el-option>
+                </el-select>
+                <!-- 课程表展示 -->
+                <el-table :data="courseSchedule" :row-key="(row, index) => index" :pagination="false">
+                    <el-table-column prop="weekday" label="星期"></el-table-column>
+                    <el-table-column prop="period" label="课时"></el-table-column>
+                    <el-table-column prop="course" label="课程"></el-table-column>
+                    <!-- 其他列 -->
+                </el-table>
+            </el-card>
+        </el-container>
+
+        <!-- 批量排课 -->
+        <el-container v-if="selectedScheduleType === 'batch'">
+            <el-card>
+                <h2>批量排课</h2>
+                <!-- 表单内容 -->
+                <!-- 选择教学班 -->
+                <el-select v-model="selectedTeachingClassBatch" placeholder="请选择教学班">
+                    <el-option v-for="teachingClass in teachingClasses" :key="teachingClass.id" :label="teachingClass.name" :value="teachingClass.id"></el-option>
+                </el-select>
+                <!-- 选择起止周数 -->
+                <el-input v-model="startWeek" placeholder="起始周数"></el-input>
+                <el-input v-model="endWeek" placeholder="结束周数"></el-input>
+                <!-- 课程表展示 -->
+                <el-table :data="courseSchedule" :row-key="(row, index) => index" :pagination="false">
+                    <el-table-column prop="weekday" label="星期"></el-table-column>
+                    <el-table-column prop="period" label="课时"></el-table-column>
+                    <el-table-column prop="course" label="课程"></el-table-column>
+                    <!-- 其他列 -->
+                </el-table>
+            </el-card>
+        </el-container>
+
+        <!-- 其他内容 -->
+        <div class="text-center">
+            <el-button type="primary" @click="saveSchedule">保存</el-button>
+        </div>
+    </div>
+</template>
+
+<script>
+    import axios from 'axios';
+
+    export default {
+        name: 'ScheduleManagement',
+        data() {
+            return {
+                selectedScheduleType: 'single',
+                classrooms: [],
+                selectedClassroom: '',
+                classroomCourses: [],
+                teachingClasses: [],
+                selectedTeachingClass: '',
+                selectedTeachingClassBatch: '',
+                startWeek: '',
+                endWeek: '',
+                backendBaseUrl: 'http://localhost:8080',
+                courseSchedule: [],
+                tableHeaders: ['星期', '课时', '课程']
+            };
+        },
+        methods: {
+            fetchClassroomCourses() {
+                axios.get(`${this.backendBaseUrl}/api/schedule/classroom/${this.selectedClassroom}`)
+                    .then(response => {
+                        this.classroomCourses = response.data;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            },
+            fetchClassrooms() {
+                axios.get(`${this.backendBaseUrl}/api/classrooms/`)
+                    .then(response => {
+                        this.classrooms = response.data;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            },
+            saveSchedule() {
+                const scheduleData = {
+                    teachingClass: this.selectedTeachingClass,
+                    classroom: this.selectedClassroom,
+                    week: this.startWeek,
+                    weekday: 1,
+                    period: 1,
+                    // 添加其他相关属性
+                };
+
+                axios.post(`${this.backendBaseUrl}/api/schedule/`, scheduleData)
+                    .then(response => {
+                        // 处理保存成功的逻辑
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        },
+        mounted() {
+            this.fetchClassrooms();
+        }
+    };
+</script>
+
+<style scoped>
+    .schedule-management-container {
+        width: 600px;
+        margin: 0 auto;
+    }
+</style>
