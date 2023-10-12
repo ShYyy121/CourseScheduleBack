@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:sqlserver://202.118.24.59;database=course_schedule;encrypt=false;
+    url: jdbc:sqlserver://  ;database=course_schedule;encrypt=false;
     username: 
     password: 
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
