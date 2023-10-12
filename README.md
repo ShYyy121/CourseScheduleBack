@@ -40,4 +40,4 @@ IntelliJ IDEA 2023.2：
 ![image](https://github.com/ShYyy121/CourseScheduleBack/assets/145829122/fc72996b-cb40-41dc-ae74-0a9b4eb3e51a)
 ### 课程转换到正式课表中，老师和管理员可以对课表进行预先操作，最后由管理员统一转换到正式课表中，同时带有时间/教室冲突的检测
 ![image](https://github.com/ShYyy121/CourseScheduleBack/assets/145829122/e27507f3-5c5c-4d9c-8fc2-b78c2b116134)
-# 具体需求详情见项目中的 机房排课软件功能需求.txt文件
+# 具体需求详情见项目中的 机房排课软件功能需求.txt文件（https://github.com/ShYyy121/CourseScheduleBack/blob/master/%E6%9C%BA%E6%88%BF%E6%8E%92%E8%AF%BE%E8%BD%AF%E4%BB%B6%E5%8A%9F%E8%83%BD%E9%9C%80%E6%B1%82.txt）
