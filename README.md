@@ -1,4 +1,4 @@
-![image](https://github.com/ShYyy121/CourseScheduleBack/assets/145829122/6545295e-f490-445e-ae77-70dca5954a94)# CourseScheduleBack-学校排课系统--Spring+Vue3+SQL Server
+# CourseScheduleBack-学校排课系统--Spring+Vue3+SQL Server
 ## 项目技术栈:
 后端:
 
